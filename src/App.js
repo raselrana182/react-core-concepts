@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -15,6 +15,9 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>My First Paragraph</p>
         <Counter></Counter>
+        <Users></Users>
+        <Posts></Posts>
+        <Todo></Todo>
         <ul>
           {
             nayoks.map(nayok => <li>{nayok}</li>)
@@ -39,7 +42,67 @@ function Counter (){
   return(
     <div>
       <h1>Count: {count}</h1>
+      <button onClick = {() => setCount(count-1)}>Decrease</button>
+      <button onClick = {()=> setCount(count+1)}>Increase</button>
     </div>
+  )
+}
+
+function Users(){
+  const [users, setUsers] = useState([]);
+  useEffect(() =>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data =>setUsers(data))
+  },[])
+  return(
+    <div>
+      <h3>Dynamic Users: {users.length}</h3>
+      <ul>
+        {
+          users.map(user => <li>Name: {user.name} , Phone: {user.phone} , Email: {user.email}</li>)
+        }
+      </ul>
+    </div>
+  )
+}
+
+function Posts(){
+  const [posts, setPosts] = useState([]);
+  useEffect(() =>{
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(res => res.json())
+    .then(data => setPosts(data))
+  })
+  return(
+    <div>
+      <h3>Users Post:</h3>
+      <ul>
+        {
+          posts.map(post => <li>Id: {post.id} , Title: {post.title}</li>)
+        }
+      </ul>
+    </div>
+  )
+}
+
+function Todo(){
+  const [todos, setTodo] = useState([]);
+  useEffect(() =>{
+    fetch('https://jsonplaceholder.typicode.com/todos')
+    .then(res => res.json())
+    .then(data => setTodo(data))
+  })
+  return(
+    <div>
+      <h3>Todo List</h3>
+      <ul>
+        {
+          todos.map( todo => <li>Id: {todo.id} , Title: {todo.title} , User Id: {todo.userId} </li>)
+        }
+      </ul>
+    </div>
+    
   )
 }
 
